@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import './App.css'
+import axios from 'axios';
+import './App.css';
+
 function App() {
   const [page, setPage] = useState('home');
   const [formData, setFormData] = useState({
@@ -27,16 +29,33 @@ function App() {
     }
   };
 
-  const loginUser = () => {
-    // API ga so'rov yuborish
-    console.log('Login:', formData);
-    setPage('home'); // Home page ga o'tish
+  const loginUser = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/login', {
+        email: formData.email,
+        password: formData.password,
+      });
+      console.log('Login Response:', response.data);
+      setPage('home');
+    } catch (error) {
+      console.error('Login Error:', error.response?.data || error.message);
+    }
   };
 
-  const registerUser = () => {
-    // API ga so'rov yuborish
-    console.log('Register:', formData);
-    setPage('home'); // Home page ga o'tish
+  const registerUser = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/register', {
+        name: formData.name,
+        surname: formData.surname,
+        email: formData.email,
+        password: formData.password,
+        age: formData.age,
+      });
+      console.log('Register Response:', response.data);
+      setPage('home');
+    } catch (error) {
+      console.error('Register Error:', error.response?.data || error.message);
+    }
   };
 
   const showLogin = () => {
@@ -53,8 +72,8 @@ function App() {
         <div className='wrapper'>
           <h1 className='h1'>Xush kelibsiz!</h1>
           <div className='buttons'>
-          <button className='button' onClick={showLogin}>Login</button>
-          <button className='button' onClick={showRegister}>Register</button>
+            <button className='button' onClick={showLogin}>Login</button>
+            <button className='button' onClick={showRegister}>Register</button>
           </div>
         </div>
       )}
@@ -64,7 +83,7 @@ function App() {
           <h1 className='h1'>Login</h1>
           <form onSubmit={handleSubmit}>
             <input
-            className='input'
+              className='input'
               type="text"
               placeholder="Ism"
               name="name"
@@ -74,7 +93,7 @@ function App() {
             />
             <br />
             <input
-            className='input'
+              className='input'
               type="email"
               placeholder="Email"
               name="email"
@@ -84,7 +103,7 @@ function App() {
             />
             <br />
             <input
-            className='input'
+              className='input'
               type="password"
               placeholder="Parol"
               name="password"
@@ -103,7 +122,7 @@ function App() {
           <h1 className='h1'>Register</h1>
           <form onSubmit={handleSubmit}>
             <input
-            className='input'
+              className='input'
               type="text"
               placeholder="Ism"
               name="name"
@@ -113,7 +132,7 @@ function App() {
             />
             <br />
             <input
-            className='input'
+              className='input'
               type="text"
               placeholder="Familiya"
               name="surname"
@@ -123,7 +142,7 @@ function App() {
             />
             <br />
             <input
-            className='input'
+              className='input'
               type="email"
               placeholder="Email"
               name="email"
@@ -133,7 +152,7 @@ function App() {
             />
             <br />
             <input
-            className='input'
+              className='input'
               type="password"
               placeholder="Parol"
               name="password"
@@ -143,7 +162,7 @@ function App() {
             />
             <br />
             <input
-            className='input'
+              className='input'
               type="number"
               placeholder="Yosh"
               name="age"
